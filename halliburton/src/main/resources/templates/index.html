@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link th:href="@{/css/index-page-style.css}" rel="stylesheet" />
+    <script th:src="@{/js/lib/jquery-3.6.0.min.js}"></script>
+</head>
+
+<body>
+    <div class="header-block">
+        <div class="header-block_text-logo">
+            <h1>Sorter list web - app</h1>
+            <h3>This apps sorted for length string</h3>
+        </div>
+    </div>
+
+    <div class="content-block">
+        <div id="leftList" class="list">
+        </div>
+        <fieldset class="content-block_controller">
+            <legend>Интерфейс</legend>
+
+            <input class="content-block_controller_button-upload-file" id="button-upload-file" type="file" value="Загрузить файл">
+            <div class="content-block_controller_text-symbol-array">
+                <p>Список разделен символом:</p>
+            </div>
+            <select class="content-block_controller_select-symbol-array">
+                <option value=",">Запятая (,)</option>
+                <option value=";">Точка с запятой (;)</option>
+            </select>
+            <div class="content-block_controller_text-symbol-array">
+                <p>Сортировка:</p>
+            </div>
+            <select class="content-block_controller_select-type-sort">
+                <option value="ask">По возрастанию (ask)</option>
+                <option value="desc">По убыванию (desc)</option>
+                <option value="reverse">Развернуть список наоборот (reverse)</option>
+            </select>
+            <button class="content-block_controller_button-sort" id="button-sort">Сортировать</button>
+        </fieldset>
+        <div id="rightList" class="list">
+        </div>
+    </div>
+
+    <div id='storage-text'></div>
+    <div id='storage-sorted-text'></div>
+    <script th:src="@{/js/script-file-manager.js}"></script>
+</body>
+</html>
