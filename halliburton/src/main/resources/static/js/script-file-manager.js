@@ -22,13 +22,11 @@ window.onload = function() {
 }
 
 function loadFile(){
-    var storage = document.getElementById('storage-text');
     var separatorSymbol = document.querySelector('.content-block_controller_select-symbol-array').value;
 
     var reader = new FileReader();
     reader.onload = function(e) {
         var text = reader.result;
-        storage.innerHTML = text;
 
         var words = text.split(separatorSymbol);
         appendToBlock('leftList', words);
