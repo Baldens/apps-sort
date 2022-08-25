@@ -13,6 +13,7 @@ window.onload = function() {
     var buttonSort = document.getElementById('button-sort');
     buttonSort.addEventListener('click', function(){
         if( isFile ){
+
               sortAjaxRequest();
           } else {
               alert("Загрузи файл сначала!")
@@ -52,6 +53,8 @@ function appendToBlock(tableId, words) {
 
 function sortAjaxRequest(){
     var dataJson = '{"typeSort": "' + document.querySelector('.content-block_controller_select-type-sort').value + '", "text": "' + textFile + '"}';
+    alert(dataJson)
+
     $.ajax({
         type: "POST",
         url: "http://localhost:8080/api/sort",
@@ -61,7 +64,10 @@ function sortAjaxRequest(){
         success: function(dataIn){
             var newData = dataIn.text;
             $('#rightList').empty();
-            $('#rightList').append($('<div class="line">' + newData + '</div>'));
+            var sortArray = newData.split(" ");
+            for(var i = 0; i < sortArray.length; i++){
+                $('#rightList').append($('<div class="line">' + sortArray[i] + '</div>'));
+            }
         },
         error: function(data){
            alert("json error");

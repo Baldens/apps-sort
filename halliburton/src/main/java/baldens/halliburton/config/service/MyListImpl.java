@@ -15,41 +15,62 @@ public class MyListImpl implements MyList{
         this.typeSort = typeSort;
     }
 
-    private List<String> quickSort(List<String> integersArray) {
-        for (int left = 0; left < integersArray.size(); left++) {
-            String value = integersArray.get(left);
-
-            int i = left - 1;
-            for (; i >= 0; i--) {
-                if(typeSort.equals("ask")){
-                    if (value.length() < integersArray.get(i).length()) {
-                        Collections.swap(integersArray, i + 1, i);
-//                        integersArray[i + 1] = integersArray[i];
-                    } else {
-                        break;
-                    }
-                }else if(typeSort.equals("desc")){
-                    if (value.length() > integersArray.get(i).length()) {
-                        Collections.swap(integersArray, i + 1, i);
-//                        integersArray[i + 1] = integersArray[i];
-                    } else {
-                        break;
-                    }
+    private void quickSort(List<String> integersArray, int leftBorder, int rightBorder) {
+        int leftMarker = leftBorder;
+        int rightMarker = rightBorder;
+        String pivot = integersArray.get((leftMarker + rightMarker) / 2);
+        do {
+            if(typeSort.equals("ask")){
+                while (integersArray.get(leftMarker).compareTo(pivot) < 0) {
+                    leftMarker++;
+                }
+                while (integersArray.get(rightMarker).compareTo(pivot) > 0) {
+                    rightMarker--;
+                }
+            }else if(typeSort.equals("desc")){
+                while (integersArray.get(leftMarker).compareTo(pivot) > 0) {
+                    leftMarker++;
+                }
+                while (integersArray.get(rightMarker).compareTo(pivot) < 0) {
+                    rightMarker--;
                 }
             }
-            integersArray.set(i + 1, value);
+            if (leftMarker <= rightMarker) {
+                if (leftMarker < rightMarker) {
+                    String tmp = integersArray.get(leftMarker);
+                    Collections.swap(integersArray, leftMarker, rightMarker);
+                    integersArray.set(rightMarker, tmp);
+                }
+                leftMarker++;
+                rightMarker--;
+            }
+        } while (leftMarker <= rightMarker);
 
+        checkIf(integersArray, leftMarker, rightMarker, leftBorder, rightBorder);
+    }
+
+    private void checkIf(List<String> integersArray, int leftMarker, int rightMarker, int leftBorder, int rightBorder){
+        if (leftMarker < rightBorder) {
+            quickSort(integersArray, leftMarker, rightBorder);
         }
-        return integersArray;
+        if (leftBorder < rightMarker) {
+            quickSort(integersArray, leftBorder, rightMarker);
+        }
+
+        if (integersArray.size() == 0){
+            return ;
+        }
+
+        if (leftBorder >= rightMarker){
+            this.integersArray = integersArray;
+        }
     }
 
     private List<String> reverseSort(List<String> integersArray) {
-        for (int i = integersArray.size() - 1; i/2 > 0; i--) {
-            String temp = integersArray.get(integersArray.size() - 1 - i);
-            Collections.swap(integersArray, integersArray.size() - i - 1, i);
-//            integersArray[integersArray.length - i - 1] = integersArray[i];
-            integersArray.set(i, temp);
-//            integersArray[i] = temp;
+        for (int i = 0; i < (integersArray.size() / 2); i++) {
+            String temp = integersArray.get(i);
+            Collections.swap(integersArray, i, integersArray.size() - i - 1);
+            integersArray.set(integersArray.size() - i - 1, temp);
         }
         return integersArray;
     }
@@ -60,12 +81,16 @@ public class MyListImpl implements MyList{
         switch (typeSort){
             case "ask":
             case "desc":
-                returnArray = quickSort(integersArray);
+                int low = 0;
+                int high = integersArray.size() - 1;
+                quickSort(integersArray, low, high);
+                returnArray = integersArray;
                 break;
             case "reverse":
                 returnArray = reverseSort(integersArray);
                 break;
             default:
+                System.out.println("Error" + typeSort);
                 throw new IllegalStateException("Unexpected value: " + typeSort);
         }
         return returnArray;
