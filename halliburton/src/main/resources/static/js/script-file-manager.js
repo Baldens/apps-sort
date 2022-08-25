@@ -53,7 +53,6 @@ function appendToBlock(tableId, words) {
 
 function sortAjaxRequest(){
     var dataJson = '{"typeSort": "' + document.querySelector('.content-block_controller_select-type-sort').value + '", "text": "' + textFile + '"}';
-    alert(dataJson)
 
     $.ajax({
         type: "POST",
